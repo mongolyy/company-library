@@ -1,8 +1,8 @@
-name: reviewdogPrettier
+name: reviewdogBiome
 on: pull_request
 
 jobs:
-  prettier:
+  biome:
     runs-on: ubuntu-latest
 
     steps:
@@ -11,7 +11,6 @@ jobs:
         with:
           node-version: 18.x
       - run: yarn install
-      - uses: EPMatt/reviewdog-action-prettier@v1
+      - uses: mongolyy/reviewdog-action-biome@v0
         with:
-          reporter: github-pr-review
-          prettier_flags: 'src/ test/'
+          github_token: ${{ secrets.GITHUB_TOKEN }}

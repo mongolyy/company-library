@@ -12,9 +12,9 @@ const UserCard: FC<UserCardProps> = ({ user }) => {
   const { readingBooks, haveReadBooks } = readingHistories(user.lendingHistories)
 
   return (
-    <Link href={`/users/${user.id}`} data-testid="userProfileLink">
-      <div className="cursor-pointer col-span-1 bg-white rounded-lg border shadow divide-y divide-gray-200">
-        <div className="w-full flex items-center justify-between p-6 space-x-6">
+      <Link href={`/users/${user.id}`} data-testid="userProfileLink">
+        <div className="cursor-pointer col-span-1 bg-white rounded-lg border shadow divide-y divide-gray-200">
+          <div className="w-full flex items-center justify-between p-6 space-x-6">
           <div>
             <p className="text-gray-900 text-sm font-medium truncate">{user.name}</p>
             <p className="mt-1 text-gray-500 text-sm truncate">{user.email}</p>
