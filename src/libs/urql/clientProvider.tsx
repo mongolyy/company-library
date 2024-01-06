@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
 import { useSession } from 'next-auth/react'
-import { createClient, Provider } from 'urql'
+import React, { FC } from 'react'
+import { Provider, createClient } from 'urql'
 
 type ClientProviderProps = {
   children: React.ReactNode
