@@ -37,7 +37,7 @@ export const returnBook = async ({
   userId,
   lendingHistoryId,
   impression,
-}: ReturnBookWithImpressionProps): Promise<void | Error> => {
+}: ReturnBookWithImpressionProps): Promise<undefined | Error> => {
   const result = await prisma
     .$transaction(async (prisma) => {
       await prisma.returnHistory.create({
@@ -63,6 +63,8 @@ export const returnBook = async ({
   if (result instanceof Error) {
     return result
   }
+
+  return undefined
 }
 type ReturnBookWithImpressionProps = {
   bookId: number

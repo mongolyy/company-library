@@ -17,7 +17,7 @@ type UserPageProps = {
 
 const UserPage = async ({ params }: UserPageProps) => {
   const id = Number(params.id)
-  if (isNaN(id)) {
+  if (Number.isNaN(id)) {
     return <div>Error!</div>
   }
 

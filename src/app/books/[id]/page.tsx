@@ -20,7 +20,7 @@ type BookDetailPageParams = {
 
 const BookDetailPage = async ({ params }: BookDetailPageParams) => {
   const bookId = Number(params.id)
-  if (isNaN(bookId)) {
+  if (Number.isNaN(bookId)) {
     return <div>不正な書籍です。</div>
   }
 

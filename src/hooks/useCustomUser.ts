@@ -14,7 +14,7 @@ export const useCustomUser = () => {
         }
         break
     }
-  }, [])
+  }, [status, session])
 
   return { user }
 }

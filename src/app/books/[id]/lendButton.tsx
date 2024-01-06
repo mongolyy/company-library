@@ -36,6 +36,7 @@ const LendButton: FC<LendButtonProps> = ({ bookId, userId, disabled }) => {
   return (
     <>
       <button
+        type="button"
         className="bg-gray-400 hover:bg-gray-300 text-white rounded px-4 py-2 disabled:bg-gray-100"
         disabled={disabled}
         onClick={() => openModal()}
