@@ -24,13 +24,14 @@ describe('books search api', () => {
     expect(result.status).toBe(200)
     const books = (await result.json()).books
     expect(books.length).toBe(2)
-    books.forEach((book: any, index: number) => {
+    for (const book of books) {
+      const index: number = books.indexOf(book)
       expect(book.id).toBe(expectedBooks[index].id)
       expect(book.title).toBe(expectedBooks[index].title)
       expect(book.isbn).toBe(expectedBooks[index].isbn)
       expect(book.imageUrl).toBe(expectedBooks[index].imageUrl)
       expect(book.createdAt).toBe(expectedBooks[index].createdAt.toISOString())
-    })
+    }
   })
 
   it('検索キーワードを用いて絞り込みを行う', async () => {

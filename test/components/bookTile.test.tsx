@@ -7,7 +7,7 @@ jest.mock('next/image', () => ({
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   default: (props: any) => {
     // biome-ignore lint/a11y/useAltText: <explanation>
-    return  <img alt="test-image" {...props} />
+    return <img alt="test-image" {...props} />
   },
 }))
 
