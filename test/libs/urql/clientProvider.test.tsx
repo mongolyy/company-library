@@ -1,5 +1,5 @@
-import { render } from '@testing-library/react'
 import ClientProvider from '@/libs/urql/clientProvider'
+import { render } from '@testing-library/react'
 import { createClient } from 'urql'
 import { randomToken } from '../../__utils__/data/randomToken'
 

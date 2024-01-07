@@ -1,10 +1,10 @@
-import React, { Suspense } from 'react'
-import BookDetail from '@/app/books/[id]/bookDetail'
-import { getServerSession } from 'next-auth'
-import LendingList from '@/app/books/[id]/lendingList'
-import ImpressionList from '@/app/books/[id]/impressionList'
-import ReturnList from '@/app/books/[id]/returnList'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
+import BookDetail from '@/app/books/[id]/bookDetail'
+import ImpressionList from '@/app/books/[id]/impressionList'
+import LendingList from '@/app/books/[id]/lendingList'
+import ReturnList from '@/app/books/[id]/returnList'
+import { getServerSession } from 'next-auth'
+import React, { Suspense } from 'react'
 
 // Next.jsでメタデータを設定した場合のテストに問題があるようなので、一旦コメントアウト
 // https://github.com/vercel/next.js/issues/47299#issuecomment-1477912861
@@ -20,7 +20,7 @@ type BookDetailPageParams = {
 
 const BookDetailPage = async ({ params }: BookDetailPageParams) => {
   const bookId = Number(params.id)
-  if (isNaN(bookId)) {
+  if (Number.isNaN(bookId)) {
     return <div>不正な書籍です。</div>
   }
 

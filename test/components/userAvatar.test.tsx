@@ -1,6 +1,6 @@
+import UserAvatar from '@/components/userAvatar'
 import { render } from '@testing-library/react'
 import { oldUser1, oldUser2 } from '../__utils__/data/user'
-import UserAvatar from '@/components/userAvatar'
 
 describe('UserCard component', () => {
   it('ユーザー画像が表示されること', () => {

@@ -1,6 +1,6 @@
+import SearchedBook from '@/app/books/register/searchedBook'
 import { fireEvent, render } from '@testing-library/react'
 import { user1 } from '../../../__utils__/data/user'
-import SearchedBook from '@/app/books/register/searchedBook'
 
 jest.mock('@/app/books/register/searchedBook')
 
