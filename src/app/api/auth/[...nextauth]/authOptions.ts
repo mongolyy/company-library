@@ -1,6 +1,6 @@
+import prisma from '@/libs/prisma/client'
 import { NextAuthOptions } from 'next-auth'
 import AzureADB2CProvider from 'next-auth/providers/azure-ad-b2c'
-import prisma from '@/libs/prisma/client'
 
 if (
   !process.env.AZURE_AD_B2C_TENANT_NAME ||

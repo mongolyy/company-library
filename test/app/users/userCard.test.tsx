@@ -1,9 +1,10 @@
-import { fireEvent, render } from '@testing-library/react'
 import UserCard from '@/app/users/userCard'
+import { fireEvent, render } from '@testing-library/react'
 import { user1, user2 } from '../../__utils__/data/user'
 
 jest.mock('next/link', () => ({
   __esModule: true,
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   default: (props: any) => {
     return <a {...props} />
   },
