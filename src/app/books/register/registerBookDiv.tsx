@@ -1,7 +1,7 @@
 'use client'
 
-import { FC } from 'react'
 import { registerBook } from '@/app/books/register/actions'
+import { FC } from 'react'
 
 type RegisterBookDivProps = {
   title: string

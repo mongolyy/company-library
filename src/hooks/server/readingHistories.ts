@@ -3,6 +3,7 @@ import { ReturnHistory } from '@/models/returnHistory'
 
 type LH = LendingHistory & {
   returnHistory: ReturnHistory | null
+
 }
 
 export const readingHistories = (lendingHistories: LH[]) => {

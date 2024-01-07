@@ -1,10 +1,10 @@
 'use client'
 
-import { FC, Fragment, startTransition, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { lendBook } from '@/app/books/[id]/actions'
 import { DATE_SYSTEM_FORMAT } from '@/constants'
 import { dateStringToDate, getDaysLater, toJstFormat } from '@/libs/luxon/utils'
-import { lendBook } from '@/app/books/[id]/actions'
+import { Dialog, Transition } from '@headlessui/react'
+import { FC, Fragment, startTransition, useState } from 'react'
 
 type LendButtonProps = {
   bookId: number
@@ -36,6 +36,7 @@ const LendButton: FC<LendButtonProps> = ({ bookId, userId, disabled }) => {
   return (
     <>
       <button
+        type="button"
         className="bg-gray-400 hover:bg-gray-300 text-white rounded px-4 py-2 disabled:bg-gray-100"
         disabled={disabled}
         onClick={() => openModal()}

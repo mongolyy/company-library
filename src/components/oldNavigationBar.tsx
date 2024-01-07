@@ -1,7 +1,7 @@
-import { FC } from 'react'
-import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { useCustomUser } from '@/hooks/useCustomUser'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FC } from 'react'
 
 const OldNavigationBar: FC = () => {
   const router = useRouter()

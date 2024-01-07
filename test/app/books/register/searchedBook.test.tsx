@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
-import { user1 } from '../../../__utils__/data/user'
 import AddBookDiv from '@/app/books/register/addBookDiv'
 import RegisterBookDiv from '@/app/books/register/registerBookDiv'
+import { render } from '@testing-library/react'
 import useSWR from 'swr'
+import { user1 } from '../../../__utils__/data/user'
 
 jest.mock('@/app/books/register/addBookDiv')
 jest.mock('@/app/books/register/registerBookDiv')
