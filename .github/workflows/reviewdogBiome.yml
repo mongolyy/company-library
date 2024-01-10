@@ -14,7 +14,4 @@ jobs:
         with:
           node-version: 18.x
       - run: yarn install
-      - uses: mongolyy/reviewdog-action-biome@v0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          filter_mode: file
+      - run: yarn run ci
