@@ -1,6 +1,6 @@
-import { User as PrismaUser } from '@prisma/client'
 import { LendingHistory } from '@/models/lendingHistory'
 import { ReturnHistory } from '@/models/returnHistory'
+import { User as PrismaUser } from '@prisma/client'
 
 export type User = PrismaUser
 
@@ -8,15 +8,6 @@ export type OldUser = {
   id: number
   name: string
   email: string
-}
-
-export const isOldUser = (value: any): value is OldUser => {
-  return (
-    typeof value.id === 'number' &&
-    typeof value.name === 'string' &&
-    typeof value.email === 'string' &&
-    typeof value.sub === 'string'
-  )
 }
 
 export type OldUserSummary = {
