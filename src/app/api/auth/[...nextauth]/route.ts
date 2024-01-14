@@ -1,3 +1,4 @@
+import * as fs from 'fs';
 import NextAuth from 'next-auth'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 
