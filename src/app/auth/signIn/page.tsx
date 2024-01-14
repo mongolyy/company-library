@@ -1,9 +1,9 @@
 'use client'
 
-import { SessionProvider, signIn, useSession } from 'next-auth/react'
 import { NextPage } from 'next'
-import { useEffect } from 'react'
+import { SessionProvider, signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const SignIn: NextPage = () => {
   const router = useRouter()

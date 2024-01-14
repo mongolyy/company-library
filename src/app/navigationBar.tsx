@@ -1,6 +1,7 @@
-import { FC } from 'react'
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import NavigationBarItem from '@/app/navigationBarItem'
 import { getServerSession } from 'next-auth'
+import { FC } from 'react'
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions'
 import Link from 'next/link'
 

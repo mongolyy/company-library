@@ -1,6 +1,6 @@
+import OldNavigationBar from '@/components/oldNavigationBar'
 import Head from 'next/head'
 import React, { FC } from 'react'
-import OldNavigationBar from '@/components/oldNavigationBar'
 
 type LayoutProps = {
   title: string

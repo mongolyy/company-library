@@ -1,6 +1,6 @@
 import { Provider } from 'next-auth/providers'
-import { prismaMock } from '../../../../__utils__/libs/prisma/singleton'
 import { user1, user2 } from '../../../../__utils__/data/user'
+import { prismaMock } from '../../../../__utils__/libs/prisma/singleton'
 
 describe('authOptions', () => {
   beforeEach(() => {
@@ -71,11 +71,11 @@ describe('authOptions', () => {
           (provider: Provider) => provider.id === 'azure-ad-b2c',
         )
 
-      expect(providerAadB2c.options['tenantId']).toBe('tenantName')
-      expect(providerAadB2c.options['clientId']).toBe('clientId')
-      expect(providerAadB2c.options['clientSecret']).toBe('clientSecret')
-      expect(providerAadB2c.options['primaryUserFlow']).toBe('primaryUserFlow')
-      expect(providerAadB2c.options['authorization']).toStrictEqual({
+      expect(providerAadB2c.options.tenantId).toBe('tenantName')
+      expect(providerAadB2c.options.clientId).toBe('clientId')
+      expect(providerAadB2c.options.clientSecret).toBe('clientSecret')
+      expect(providerAadB2c.options.primaryUserFlow).toBe('primaryUserFlow')
+      expect(providerAadB2c.options.authorization).toStrictEqual({
         params: { scope: 'offline_access openid' },
       })
     })
@@ -86,7 +86,7 @@ describe('authOptions', () => {
           (provider: Provider) => provider.id === 'azure-ad-b2c',
         )
 
-      expect(providerAadB2c.options['authorization']).toStrictEqual({
+      expect(providerAadB2c.options.authorization).toStrictEqual({
         params: { scope: 'offline_access openid' },
       })
     })

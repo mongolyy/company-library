@@ -1,9 +1,9 @@
 'use client'
 
+import { returnBook } from '@/app/books/[id]/actions'
+import { Dialog, Transition } from '@headlessui/react'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, FC, Fragment, startTransition, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { returnBook } from '@/app/books/[id]/actions'
 
 type ReturnButtonProps = {
   bookId: number
@@ -45,6 +45,7 @@ const ReturnButton: FC<ReturnButtonProps> = ({ bookId, userId, lendingHistoryId,
   return (
     <>
       <button
+        type="button"
         className="bg-gray-400 hover:bg-gray-300 text-white rounded px-4 py-2 disabled:bg-gray-100"
         disabled={disabled}
         onClick={() => openModal()}
