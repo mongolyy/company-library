@@ -3,27 +3,12 @@ name: Collect and Upload Logs
 on: [push]
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Execute job 1 tasks
-        run: |
-          echo "Job 1 is executing tasks..."
-          # Job 1 specific commands here
-
-  job2:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Execute job 2 tasks
-        run: |
-          echo "Job 2 is executing tasks..."
-          # Job 2 specific commands here
+  Jobs:
+    uses: ./.github/workflows/jobs.yml
 
   download-and-upload-logs:
     runs-on: ubuntu-latest
-    needs: [job1, job2]
+    needs: [Jobs]
     steps:
       - uses: actions/checkout@v4
 
@@ -31,7 +16,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          run_id=$(gh run list --workflow="$GITHUB_WORKFLOW" --limit=1 --json databaseId --jq '.[0].databaseId')
+          run_id=$(gh run list --workflow="Collect and Upload Logs" --limit=1 --json databaseId --jq '.[0].databaseId')
           echo "Downloading logs for run ID: $run_id"
           jobs=$(gh run view $run_id --json jobs --jq '.jobs[] | {name, databaseId}')
           echo $jobs

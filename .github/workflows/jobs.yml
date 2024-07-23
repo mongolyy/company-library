@@ -1,0 +1,22 @@
+name: Collect and Upload Logs
+
+on: [workflow_call]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute job 1 tasks
+        run: |
+          echo "Job 1 is executing tasks..."
+          # Job 1 specific commands here
+
+  job2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute job 2 tasks
+        run: |
+          echo "Job 2 is executing tasks..."
+          # Job 2 specific commands here
