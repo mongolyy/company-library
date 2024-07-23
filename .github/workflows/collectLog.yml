@@ -1,0 +1,47 @@
+name: Collect and Upload Logs
+
+on: [push]
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Execute job 1 tasks
+        run: |
+          echo "Job 1 is executing tasks..."
+          # Job 1 specific commands here
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - uses: actions/checkout@v2
+      - name: Execute job 2 tasks
+        run: |
+          echo "Job 2 is executing tasks..."
+          # Job 2 specific commands here
+
+  download-and-upload-logs:
+    runs-on: ubuntu-latest
+    needs: [job1, job2]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download job 1 and job 2 logs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          run_id=$(gh run list --workflow=$GITHUB_WORKFLOW --limit=1 --json databaseId --jq '.[0].databaseId')
+          gh run download $run_id --name "job1" --dir logs-job1
+          gh run download $run_id --name "job2" --dir logs-job2
+
+      - name: Archive all logs
+        run: |
+          zip -r all-logs.zip logs-job1/ logs-job2/
+
+      - name: Upload all logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: all-logs
+          path: all-logs.zip
