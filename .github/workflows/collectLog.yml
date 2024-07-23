@@ -33,15 +33,19 @@ jobs:
         run: |
           run_id=$(gh run list --workflow="$GITHUB_WORKFLOW" --limit=1 --json databaseId --jq '.[0].databaseId')
           echo "Downloading logs for run ID: $run_id"
-          job_ids=$(gh run view $run_id --json jobs)
-          echo $job_ids
-
-      - name: Archive all logs
-        run: |
-          zip -r all-logs.zip logs-job1/ logs-job2/
+          jobs=$(gh run view $run_id --json jobs --jq '.jobs[] | {name, databaseId}')
+          echo $jobs
+          for job in $jobs; do
+              job_id=$(echo $job | jq -r '.databaseId')
+              job_name=$(echo $job | jq -r '.name')
+              echo "Downloading logs for job: $job_name"
+              gh run view $run_id --job $job_id --log > $job_name.log
+          done
 
       - name: Upload all logs
         uses: actions/upload-artifact@v4
         with:
           name: all-logs
-          path: all-logs.zip
+          path: |
+            job1.log
+            job2.log
