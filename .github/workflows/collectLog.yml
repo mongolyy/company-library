@@ -33,9 +33,8 @@ jobs:
         run: |
           run_id=$(gh run list --workflow="$GITHUB_WORKFLOW" --limit=1 --json databaseId --jq '.[0].databaseId')
           echo "Downloading logs for run ID: $run_id"
-          gh run view $run_id --job job1
-          echo "gh run view $run_id --job job1 --log"
-          gh run view $run_id --job job1 --log
+          job_ids=$(gh run view $run_id --json jobs --jq '.jobs[].id')
+          echo $job_ids
 
       - name: Archive all logs
         run: |
