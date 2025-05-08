@@ -1,5 +1,7 @@
 name: reviewdogBiome
-on: pull_request
+on:
+  pull_request_target:
+    types: [assigned, opened, synchronize, reopened, edited, labeled]
 
 jobs:
   biome:
@@ -7,11 +9,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: volta-cli/action@v4
-      - run: yarn install --immutable
-      - run: yarn lint:ci
-#      - uses: mongolyy/reviewdog-action-biome@v1
-#        with:
-#          github_token: ${{ secrets.github_token }}
-#          biome_flags: 'src/ test/'
-#          fail_on_error: true
+      - uses: mongolyy/reviewdog-action-biome@v1
+        with:
+          github_token: ${{ steps.app-token.outputs.token }}
+          biome_flags: 'src/ test/'
+          fail_on_error: true
