@@ -129,3 +129,7 @@ src/
 - 認証にAzure AD/B2C必須
 - 通知用Slack統合（オプション）
 - Vercelプラットフォームサービス使用（Postgres、Blobストレージ）
+
+### 依存関係の管理
+- **バージョン固定ポリシー**: `next`, `react`, `react-dom`, `@types/react`, `@types/react-dom` はバージョンを固定する（`^` や `~` を付けない）。詳細は [docs/version-pinning.md](docs/version-pinning.md) を参照
+- **パッケージマネージャー**: yarn を使用すること（npm は使わない）。npm を使うと yarn.lock のフォーマットが壊れる
