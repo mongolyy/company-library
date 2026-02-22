@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import NavigationBar from '@/app/navigationBar'
 import { user1 } from '../../test/__utils__/data/user'
@@ -38,13 +38,15 @@ describe('navigationBar component', async () => {
   })
 
   it('ナビゲーション項目が表示される', async () => {
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    expect(await screen.findByText('company-library')).toBeInTheDocument()
+    expect(screen.getByText('company-library')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '書籍一覧' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: '書籍一覧' })).not.toHaveClass('bg-gray-600')
     expect(screen.getByRole('link', { name: '登録' })).toBeInTheDocument()
@@ -57,91 +59,100 @@ describe('navigationBar component', async () => {
   })
 
   it('company-libraryをクリックすると書籍一覧画面へ遷移する', async () => {
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('company-library')).toHaveAttribute('href', '/')
+    expect(screen.getByText('company-library')).toHaveAttribute('href', '/')
   })
 
   it('pathが/の場合、書籍一覧ボタンのデザインが強調される', async () => {
     pathnameMock.mockReturnValue('/')
 
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('link', { name: '書籍一覧' })).toHaveClass('bg-gray-600')
+    expect(screen.getByRole('link', { name: '書籍一覧' })).toHaveClass('bg-gray-600')
   })
 
   it('pathが/books/registerの場合、登録ボタンのデザインが強調される', async () => {
     pathnameMock.mockReturnValue('/books/register')
 
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('link', { name: '登録' })).toHaveClass('bg-gray-600')
+    expect(screen.getByRole('link', { name: '登録' })).toHaveClass('bg-gray-600')
   })
 
   it('pathが/usersの場合、利用者一覧ボタンのデザインが強調される', async () => {
     pathnameMock.mockReturnValue('/users')
 
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('link', { name: '利用者一覧' })).toHaveClass('bg-gray-600')
+    expect(screen.getByRole('link', { name: '利用者一覧' })).toHaveClass('bg-gray-600')
   })
 
   it('pathが/users/ログインユーザーのidの場合、マイページボタンのデザインが強調される', async () => {
     pathnameMock.mockReturnValue(`/users/${loggedInUser.id}`)
 
-    const { rerender } = render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    let rerender: (ui: React.ReactElement) => void
+    await act(async () => {
+      const result = render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+      rerender = result.rerender
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('link', { name: 'マイページ' })).toHaveClass('bg-gray-600')
+    expect(screen.getByRole('link', { name: 'マイページ' })).toHaveClass('bg-gray-600')
 
     // ログインユーザー以外のIDの場合強調されない
     pathnameMock.mockReturnValue({
       push: vi.fn(),
       asPath: `/users/${loggedInUser.id + 1}`,
     })
-    rerender(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      rerender(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('link', { name: 'マイページ' })).not.toHaveClass('bg-gray-600')
+    expect(screen.getByRole('link', { name: 'マイページ' })).not.toHaveClass('bg-gray-600')
   })
 
   it('ログインユーザーのアバターが表示される', async () => {
-    render(
-      <Suspense>
-        <NavigationBar />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <NavigationBar />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('userAvatar')).toBeInTheDocument()
+    expect(screen.getByText('userAvatar')).toBeInTheDocument()
     expect(UserAvatarMock).toHaveBeenLastCalledWith(
       {
         user: { id: loggedInUser.id, name: loggedInUser.name, email: loggedInUser.email },

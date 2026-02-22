@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import UserDetailPage from '@/app/users/[id]/page'
 import { user1 } from '../../../../test/__utils__/data/user'
@@ -17,41 +17,44 @@ describe('UserDetail page', async () => {
   it('ユーザーの情報が表示される', async () => {
     prismaMock.user.findUnique.mockResolvedValue(expectedUser)
 
-    render(
-      <Suspense>
-        <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('テスト太郎さんの情報')).toBeInTheDocument()
+    expect(screen.getByText('テスト太郎さんの情報')).toBeInTheDocument()
     expect(screen.getByText('現在読んでいる書籍(3冊)'))
     expect(screen.getByText('今まで読んだ書籍(4冊)'))
   })
 
   it('クエリにidがない場合は、「Error!」と表示される', async () => {
-    render(
-      <Suspense>
-        {/* @ts-ignore */}
-        <UserDetailPage params={{}} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          {/* @ts-ignore */}
+          <UserDetailPage params={{}} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('Error!')).toBeInTheDocument()
+    expect(screen.getByText('Error!')).toBeInTheDocument()
   })
 
   it('該当するidのユーザーがない場合は、「Error!」と表示される', async () => {
     prismaMock.user.findUnique.mockResolvedValue(null)
 
-    render(
-      <Suspense>
-        <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('Error!')).toBeInTheDocument()
+    expect(screen.getByText('Error!')).toBeInTheDocument()
   })
 
   it('利用者一覧の読み込みに失敗した場合、「Error!」と表示される', async () => {
@@ -59,14 +62,15 @@ describe('UserDetail page', async () => {
     console.error = vi.fn()
     prismaMock.user.findUnique.mockRejectedValue(expectErrorMsg)
 
-    render(
-      <Suspense>
-        <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <UserDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('Error!')).toBeInTheDocument()
+    expect(screen.getByText('Error!')).toBeInTheDocument()
     expect(console.error).toBeCalledWith(expectErrorMsg)
   })
 })

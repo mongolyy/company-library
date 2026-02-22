@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import BookDetailPage from '@/app/books/[id]/page'
 import { bookWithImage } from '../../../../test/__utils__/data/book'
@@ -67,14 +67,15 @@ describe('BookDetail page', async () => {
   })
 
   it('本の情報の読み込みが完了した場合は、詳細情報を表示する', async () => {
-    render(
-      <Suspense>
-        <BookDetailPage params={new Promise((resolve) => resolve({ id: book.id.toString() }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetailPage params={new Promise((resolve) => resolve({ id: book.id.toString() }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    const heading2s = await screen.findAllByRole('heading', { level: 2 })
+    const heading2s = screen.getAllByRole('heading', { level: 2 })
     expect(heading2s.length).toBe(3)
     expect(heading2s[0].textContent).toBe('借りているユーザー')
     expect(heading2s[1].textContent).toBe('感想')
@@ -89,50 +90,56 @@ describe('BookDetail page', async () => {
   it('セッションが取得できなかった場合は、エラーメッセージを表示する', async () => {
     getServerSessionMock.mockReturnValue(null)
 
-    render(
-      <Suspense>
-        <BookDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
     expect(
-      await screen.findByText('セッションが取得できませんでした。再読み込みしてみてください。'),
+      screen.getByText('セッションが取得できませんでした。再読み込みしてみてください。'),
     ).toBeInTheDocument()
   })
 
   it('書籍のIDが数値でなかった場合は、エラーメッセージを表示する', async () => {
-    const { rerender } = render(
-      <Suspense>
-        <BookDetailPage params={new Promise((resolve) => resolve({ id: 'true' }))} />
-      </Suspense>,
-    )
+    let rerender: (ui: React.ReactElement) => void
+    await act(async () => {
+      const result = render(
+        <Suspense>
+          <BookDetailPage params={new Promise((resolve) => resolve({ id: 'true' }))} />
+        </Suspense>,
+      )
+      rerender = result.rerender
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('不正な書籍です。')).toBeInTheDocument()
+    expect(screen.getByText('不正な書籍です。')).toBeInTheDocument()
 
-    rerender(
-      <Suspense>
-        <BookDetailPage params={new Promise((resolve) => resolve({ id: '1n' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      rerender(
+        <Suspense>
+          <BookDetailPage params={new Promise((resolve) => resolve({ id: '1n' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('不正な書籍です。')).toBeInTheDocument()
+    expect(screen.getByText('不正な書籍です。')).toBeInTheDocument()
   })
 
   it('セッションが取得できなかった場合は、エラーメッセージを表示する', async () => {
     getServerSessionMock.mockReturnValue(null)
 
-    render(
-      <Suspense>
-        <BookDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetailPage params={new Promise((resolve) => resolve({ id: '1' }))} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
     expect(
-      await screen.findByText('セッションが取得できませんでした。再読み込みしてみてください。'),
+      screen.getByText('セッションが取得できませんでした。再読み込みしてみてください。'),
     ).toBeInTheDocument()
   })
 })

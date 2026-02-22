@@ -14,7 +14,15 @@ const SignIn: NextPage = () => {
   useEffect(() => {
     const f = async () => {
       if (status === 'unauthenticated') {
-        await signIn(defaultProvider)
+        if (defaultProvider === 'credentials') {
+          await signIn('credentials', {
+            email: 'dev@example.com',
+            password: 'password',
+            callbackUrl: '/',
+          })
+        } else {
+          await signIn(defaultProvider)
+        }
       } else if (status === 'authenticated') {
         await router.push('/')
       }
