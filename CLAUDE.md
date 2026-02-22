@@ -192,7 +192,8 @@ yarn test                   # テストの実行
 │       ├── data/                   # テスト用データファクトリ（book, user, etc.）
 │       └── libs/prisma/singleton.ts # Prismaモック（vitest-mock-extended使用）
 ├── prisma/
-│   └── schema.prisma               # DBスキーマ定義
+│   ├── schema.prisma               # DBスキーマ定義
+│   └── seed.ts                     # シードデータ（yarn db:seed で実行）
 ├── docker-compose.yml              # ローカル開発用PostgreSQL 18
 ├── vitest.config.ts                # Vitestの設定
 ├── vitest.setup.ts                 # テストセットアップ（jest-dom + 環境変数スタブ）
@@ -266,6 +267,21 @@ BLOB_READ_WRITE_TOKEN=
 # Vercel Cron Jobs
 CRON_SECRET=                   # /api/cron/overdue の認証シークレット
 ```
+
+### CI/CD（GitHub Actions）
+
+Pull Request 時に自動で以下のチェックが実行されます：
+
+| ワークフロー | 内容 |
+|---|---|
+| `unitTest.yml` | `yarn test`（Vitest） |
+| `buildCheck.yml` | `yarn db:generate && yarn build` |
+| `typeCheck.yml` | `yarn db:generate && yarn typeCheck` |
+| `reviewdogBiome.yml` | `yarn lint:ci`（Biome CI モード） |
+| `codeql.yml` | CodeQL セキュリティスキャン |
+| `dependency-review.yml` | 依存関係の脆弱性チェック |
+
+**Node.js / Yarn のバージョンは Volta で自動管理**（package.json の `volta` フィールドで固定）
 
 ### 外部依存関係
 - **認証**: Azure AD または Azure AD B2C が必須
