@@ -133,3 +133,16 @@ yarn db:push
 ```bash
 yarn dev
 ```
+
+## Claude Code セットアップ
+
+このリポジトリでは[Claude Code](https://docs.anthropic.com/en/docs/claude-code)向けのスキルを利用できます。
+以下のコマンドをClaude Code上で実行してセットアップしてください。
+
+```
+# マーケットプレイスを追加
+/plugin marketplace add anthropics/skills
+
+# スキルセットをインストール
+/plugin install example-skills@anthropic-agent-skills
+```
