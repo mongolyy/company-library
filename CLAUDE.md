@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-プロジェクトの開発コマンド、アーキテクチャ、コードスタイル等の詳細は [AGENTS.md](./AGENTS.md) を参照してください。
+プロジェクトの開発コマンド、アーキテクチャ、コードスタイル等の詳細は @AGENTS.md を参照してください。
 
 ## 言語設定
 
