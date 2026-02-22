@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import UsersPage from '@/app/users/page'
 import { user1, user2 } from '../../../test/__utils__/data/user'
@@ -17,14 +17,15 @@ describe('users page', async () => {
   }))
 
   it('利用者一覧が表示される', async () => {
-    render(
-      <Suspense>
-        <UsersPage />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <UsersPage />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByRole('heading')).toHaveTextContent('利用者一覧')
+    expect(screen.getByRole('heading')).toHaveTextContent('利用者一覧')
     expect(screen.getByText(user1.name)).toBeInTheDocument()
     expect(screen.getByText(user2.name)).toBeInTheDocument()
   })
@@ -34,14 +35,15 @@ describe('users page', async () => {
     console.error = vi.fn()
     prismaMock.user.findMany.mockRejectedValue(expectErrorMsg)
 
-    render(
-      <Suspense>
-        <UsersPage />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <UsersPage />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByText('Error!')).toBeInTheDocument()
+    expect(screen.getByText('Error!')).toBeInTheDocument()
     expect(console.error).toBeCalledWith(expectErrorMsg)
   })
 })

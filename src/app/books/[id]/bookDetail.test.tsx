@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import { Suspense } from 'react'
 import { expect } from 'vitest'
 import BookDetail from '@/app/books/[id]/bookDetail'
@@ -49,14 +49,15 @@ describe('BookDetail component', () => {
   })
 
   it('本の詳細情報と操作ボタンが表示される', async () => {
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByAltText(book.title)).toBeInTheDocument()
+    expect(screen.getByAltText(book.title)).toBeInTheDocument()
     expect(screen.getByAltText(book.title)).toHaveAttribute(
       'src',
       expect.stringContaining(encodeURIComponent(book.imageUrl)),
@@ -82,14 +83,15 @@ describe('BookDetail component', () => {
       imageUrl: bookWithoutImage.imageUrl,
     })
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
-    expect(await screen.findByAltText(book.title)).toBeInTheDocument()
+    expect(screen.getByAltText(book.title)).toBeInTheDocument()
     expect(screen.getByAltText(book.title)).toHaveAttribute(
       'src',
       expect.stringContaining(encodeURIComponent('/no_image.jpg')),
@@ -121,13 +123,13 @@ describe('BookDetail component', () => {
     }
     prismaMock.book.findUnique.mockResolvedValue(mockBookDetail)
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
-
-    await screen.findByText(book.title)
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
     expect(screen.getByText('本社')).toBeInTheDocument()
     expect(screen.getByText('2冊貸し出し可能')).toBeInTheDocument()
@@ -155,13 +157,14 @@ describe('BookDetail component', () => {
     }
     prismaMock.book.findUnique.mockResolvedValue(mockBookAllLent)
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    await screen.findByText(book.title)
     expect(screen.getByText('0冊貸し出し可能')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: '借りる' })).toBeDisabled()
   })
@@ -184,13 +187,14 @@ describe('BookDetail component', () => {
     }
     prismaMock.book.findUnique.mockResolvedValue(mockBookUserBorrowing)
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    await screen.findByText(book.title)
     expect(screen.getByRole('button', { name: '借りる' })).toBeDisabled()
   })
 
@@ -210,13 +214,14 @@ describe('BookDetail component', () => {
     }
     prismaMock.book.findUnique.mockResolvedValue(mockBookUserBorrowing)
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    await screen.findByText(book.title)
     expect(screen.getByRole('button', { name: '返却する' })).toBeEnabled()
   })
 
@@ -225,15 +230,16 @@ describe('BookDetail component', () => {
     prismaMock.book.findUnique.mockRejectedValue(expectedError)
     console.error = vi.fn()
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
-    // Suspenseの解決を待つために、最初のテスト項目のみawaitを使う
     expect(
-      await screen.findByText('本の取得に失敗しました。再読み込みしてみてください。'),
+      screen.getByText('本の取得に失敗しました。再読み込みしてみてください。'),
     ).toBeInTheDocument()
     expect(console.error).toBeCalledWith(expectedError)
   })
@@ -242,14 +248,16 @@ describe('BookDetail component', () => {
     prismaMock.book.findUnique.mockResolvedValue(null)
     console.error = vi.fn()
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
     expect(
-      await screen.findByText('本の取得に失敗しました。再読み込みしてみてください。'),
+      screen.getByText('本の取得に失敗しました。再読み込みしてみてください。'),
     ).toBeInTheDocument()
     expect(console.error).toBeCalledWith('対象のIDの本は存在しません。bookId:', book.id)
   })
@@ -269,13 +277,13 @@ describe('BookDetail component', () => {
     }
     prismaMock.book.findUnique.mockResolvedValue(mockBookDetail)
 
-    render(
-      <Suspense>
-        <BookDetail bookId={book.id} userId={userId} />
-      </Suspense>,
-    )
-
-    await screen.findByText(book.title)
+    await act(async () => {
+      render(
+        <Suspense>
+          <BookDetail bookId={book.id} userId={userId} />
+        </Suspense>,
+      )
+    })
 
     const locationElements = screen.getAllByText(/階/)
     expect(locationElements[0]).toHaveTextContent('1階 エントランス')
